@@ -24,6 +24,7 @@ class Configuration:
             "supervisor_agent": prompts.SUPERVISOR_PROMPT,
             "researcher_agent": prompts.RESEARCHER_PROMPT,
             "summary_agent": prompts.SUMMARY_PROMPT,
+            "marketing_prompt": prompts.MARKETING_PROMPT
         },
         metadata={
             "description": "A dictionary of prompts for different agent types."
@@ -62,6 +63,7 @@ class Configuration:
                 "supervisor_agent": prompts.SUPERVISOR_PROMPT,
                 "researcher_agent": prompts.RESEARCHER_PROMPT,
                 "summary_agent": prompts.SUMMARY_PROMPT,
+                "marketing_prompt": prompts.MARKETING_PROMPT
             }
 
     def get_prompt(self, agent_type: str) -> str:

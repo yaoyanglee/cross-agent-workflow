@@ -32,7 +32,12 @@ class NodeResponse(AIMessage):
     next_step: str
 
 
-# Defining a tracking dictionary to keep track of research responses after using tools
+class MarketingInput(BaseModel):
+    customer_domain: str
+    project_description: str
+
+
+    # Defining a tracking dictionary to keep track of research responses after using tools
 id_tracking = {
     "research": {
         "research_id": None,
@@ -272,30 +277,34 @@ async def marketing_agent(
     Returns:
         dict: A dictionary containing the model's response message.
     """
-    # configuration = Configuration.from_runnable_config(config)
+    configuration = Configuration.from_runnable_config(config)
 
-    # # Initialize the model with tool binding. Change the model or add more tools here.
-    # model = load_chat_model(configuration.model).bind_tools(TOOLS)
-    # # model = load_chat_model(configuration.model)
+    # Initialize the model with tool binding. Change the model or add more tools here.
+    model = load_chat_model(
+        configuration.model).with_structured_output(MarketingInput)
 
-    # # Format the system prompt. Customize this to change the agent's behavior.
-    # system_message = configuration.get_prompt("researcher_agent")
+    # Format the system prompt. Customize this to change the agent's behavior.
+    system_message = configuration.get_prompt(
+        "marketing_prompt").format(messages=state.messages)
 
-    crew_input = {"langgraph_messages": state.messages}
+    # Get the model's response
+    response = cast(
+        AIMessage,
+        await model.ainvoke(
+            [{"role": "system", "content": system_message}, *state.messages], config
+        ),
+    )
+
+    crew_input = {"customer_domain": response.customer_domain,
+                  "project_description": response.project_description}
     crew_output = run(crew_input)
     print("########## CREW OUTPUT ############", crew_output)
 
     # Constructing a response that is compatible with the langgraph nodes return values
-    response = AIMessage(
+    crew_response = AIMessage(
         # You can generate a unique ID if needed
         id=f"crewai-marketing-run-{uuid.uuid4()}",
         content=crew_output,  # Use CrewAI's generated content
-        additional_kwargs={},  # Empty metadata (can be extended)
-        response_metadata={
-            "source": "CrewAI-marketing",
-            "model_name": "CrewAI-marketing-Generated",
-            "finish_reason": "complete",
-        },
     )
 
     if state.is_last_step:
@@ -308,9 +317,10 @@ async def marketing_agent(
             ]
         }
 
+    # print("\nmarketing response\n", response)
     # # Return the model's response as a list to be added to existing messages
     # return {"messages": [response]}
-    return {"messages": [response]}
+    return {"messages": [crew_response]}
 
 
 async def lead_agent(

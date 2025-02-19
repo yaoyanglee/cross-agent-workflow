@@ -113,3 +113,43 @@ hanism: Captures long-range dependencies by considering relationships between wo
 
 ## SUMMARY EXAMPLE END ##
 '''
+
+MARKETING_PROMPT = '''
+    Given a list of AIMessages and HumanMessages, where HumanMessages are likely to be commands or requests that the user has, 
+    please translate the user request from the latest HumanMessage into the customer domain and project requirements. This 
+    information is used in a downstream task of writing a marketing campaign for said customer domain according to the specified project requirements.
+
+    Below is an example.
+
+    ## Example Start ##
+    User Query:
+    Please write a marketing campaign for CrewAI. CrewAI is a eading provider of multi-agent systems, aims to revolutionize marketing automation for its enterprise clients. This project involves developing an innovative marketing strategy to showcase CrewAI's advanced AI-driven solutions, emphasizing ease of use, scalability, and integration capabilities. The campaign will target tech-savvy decision-makers in medium to large enterprises, highlighting success stories and the transformative potential of CrewAI's platform. 
+    Customer Domain: AI and Automation Solutions
+    Project Overview: Creating a comprehensive marketing campaign to boost awareness and adoption of CrewAI's services among enterprise clients.
+    
+    Response from LLM:
+    'customer_domain': 'crewai.com',
+    'project_description': """
+        CrewAI, a leading provider of multi-agent systems, aims to revolutionize marketing automation for its enterprise clients. This project involves developing an innovative marketing strategy to showcase CrewAI's advanced AI-driven solutions, emphasizing ease of use, scalability, and integration capabilities. The campaign will target tech-savvy decision-makers in medium to large enterprises, highlighting success stories and the transformative potential of CrewAI's platform.
+        customer domain: AI and Automation Solutions
+        project overview: Creating a comprehensive marketing campaign to boost awareness and adoption of CrewAI's services among enterprise clients.
+    """
+    ## Example End ##
+        
+    In the event that the user query is vague, please furnish the project description with whatever information you know about teh customer domain
+    Below is an example.
+
+    ## Example Start ##
+    User Query:
+    Please write a campaign for Toyota
+
+    Response from LLM:
+    customer_domain: toyota.com
+    project overview: """
+        Toyota is a Japanese multinational automotive manufacturer headquartered in Toyota City, Japan.Toyota offers a diverse range of vehicles, including sedans, SUVs, trucks, and hybrids. Notable models include the Corolla, Camry, RAV4, and the hybrid Prius. The company also produces luxury vehicles under the Lexus brand and compact cars under the Daihatsu brand.
+        Pioneering hybrid technology, Toyota introduced the Prius in 1997, leading the market in fuel-efficient vehicles. The company continues to explore alternative energy solutions, including hydrogen fuel cell vehicles like the Mirai
+    """
+    ## Example End ##
+
+    Here is the list of AIMessage and HumanMessage {messages}
+'''
