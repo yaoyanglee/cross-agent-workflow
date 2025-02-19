@@ -52,6 +52,7 @@ class State(InputState):
     This is a 'managed' variable, controlled by the state machine rather than user code.
     It is set to 'True' when the step count reaches recursion_limit - 1.
     """
+    content_id: str = field(default=False)
 
     # Additional attributes can be added here as needed.
     # Common examples include:

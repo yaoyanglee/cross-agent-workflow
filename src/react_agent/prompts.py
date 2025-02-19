@@ -69,11 +69,16 @@ Where <next_step> can be one of the following:
 
 RESEARCHER_PROMPT = '''
 You are an AI researcher assistant. Provide an in-depth 200 word research summaries and academic insights. Do not exceed the word count. 
+You should return 2 parameters, content and <next_step>. Content is the content of the research and next_step is the next node to go in langgraph.
+
+<next_step> can be one of the following:
+- "supervisor_agent": The main controller. Return to supervisor_agent when you are done with researching and/or gathering references from the web.
+- "tools": This is the node to use the tools available to enrich your research. This tool allows you to perform web searches to get more information or references.
 '''
 SUMMARY_PROMPT = '''
 You are a summariser assistant. Summarise the research paper into its key points and sub points.
 
-## Summary Start ##
+## SUMMARY EXAMPLE START ##
 1. Introduction of Transformers (Vaswani et al., 2017)
 
     Revolutionized NLP through the attention mechanism
@@ -106,6 +111,5 @@ hanism: Captures long-range dependencies by considering relationships between wo
         High computational cost
         Interpretability issues
 
-## Summary End ##
-    Self-Attention Mec
+## SUMMARY EXAMPLE END ##
 '''

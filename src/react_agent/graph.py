@@ -28,15 +28,19 @@ load_dotenv()
 # Defining an output structure
 
 
-class SupervisorResponse(BaseModel):
+class NodeResponse(AIMessage):
     next_step: str
 
 
-class AgentResponse(BaseModel):
-    content: str
-    next_step: str
+# Defining a tracking dictionary to keep track of research responses after using tools
+id_tracking = {
+    "research": {
+        "research_id": None,
+        "research_urls": None
+    }
+}
 
-# Define the function that calls the model
+# Defining agents with their own models
 
 
 async def supervisor_agent(
@@ -57,9 +61,8 @@ async def supervisor_agent(
     configuration = Configuration.from_runnable_config(config)
 
     # Initialize the model with tool binding. Change the model or add more tools here.
-    # model = load_chat_model(configuration.model).bind_tools(TOOLS)
     model = load_chat_model(configuration.model)
-    model = model.with_structured_output(SupervisorResponse)
+    model = model.with_structured_output(NodeResponse)
 
     # Format the system prompt. Customize this to change the agent's behavior.
     # Get the correct prompt for this agent
@@ -75,47 +78,51 @@ async def supervisor_agent(
     )
 
     print("\n############## SUPERVISOR STATE ##################\n", state)
-
     print("\n ############## SUPERVISOR RESPONSE ############ \n",
-          response, "   ", type(response))
+          response)
 
-    # Handle the case when it's the last step and the model still wants to use a tool
-    # if state.is_last_step and response.tool_calls:
-    #     return {
-    #         "messages": [
-    #             AIMessage(
-    #                 id=response.id,
-    #                 content="Sorry, I could not find an answer to your question in the specified number of steps.",
-    #             )
-    #         ]
-    #     }
-
+    # Handle the case when it's the last step
     if state.is_last_step:
         return {
             "messages": [
                 AIMessage(
-                    id=uuid.uuid4,
+                    id=response.id,
                     content="Sorry, I could not find an answer to your question in the specified number of steps.",
                 )
             ]
         }
 
     # Parse the structured JSON response from the model
-    try:
-        # structured_output = json.loads(response.content)
-        # print("\n++++++++ STRUCTURED OUTPUT +++++++++++++\n", structured_output)
-        # next_step = structured_output['next_step']
-
-        if response.next_step:
-            response = response.model_dump_json()
-            return {"messages": [AIMessage(id=uuid.uuid4, content=response)]}
-
-    except (json.JSONDecodeError, KeyError):
-        # Default to end if parsing fails or if the output is malformed
-        return {"messages": [AIMessage(id=uuid.uuid4, content={'content': 'JSON Key Error', 'next_step': '__end__'})]}
+    if response.next_step:
+        print("\n##### SUPERVISOR JSON DUMP #####\n", response)
+        return {"messages": [AIMessage(id=response.id, content=f"Redirecting to {response.next_step}", next_step=response.next_step)]}
 
     # Fallback to return the response if no next step is defined
-    return {"messages": [AIMessage(id=uuid.uuid4, content=response)]}
+    return {"messages": [response]}
+
+
+def supervisor_routing(state: State) -> Literal["__end__", "summary_agent", "researcher_agent", "marketing_agent", "lead_agent"]:
+    """Determine the next node based on the model's output.
+
+    This function checks if the model's last message contains tool calls.
+
+    Args:
+        state (State): The current state of the conversation.
+
+    Returns:
+        str: The name of the next node to call ("__end__" or "tools").
+    """
+    last_message = state.messages[-1]
+    print("\n############## SUPERVISOR ROUTING LAST MSG #################\n",
+          last_message, "    ", type(last_message))
+    # print("\n############## STATE MESSAGES ##################\n", state.messages)
+    if not isinstance(last_message, AIMessage):
+        raise ValueError(
+            f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
+        )
+
+    # Route based on where the supervisor decides
+    return last_message.next_step
 
 
 async def researcher_agent(
@@ -135,6 +142,7 @@ async def researcher_agent(
     configuration = Configuration.from_runnable_config(config)
 
     # Initialize the model with tool binding. Change the model or add more tools here.
+    # If you bind_tools, you cannot use with_structured_output
     model = load_chat_model(configuration.model).bind_tools(TOOLS)
 
     # Format the system prompt. Customize this to change the agent's behavior.
@@ -149,17 +157,7 @@ async def researcher_agent(
     )
 
     print("\n######## RESEARCHER AGENT RESPONSE ############\n", response)
-    # Handle the case when it's the last step and the model still wants to use a tool
-    # if state.is_last_step and response.tool_calls:
-    #     return {
-    #         "messages": [
-    #             AIMessage(
-    #                 id=response.id,
-    #                 content="Sorry, I could not find an answer to your question in the specified number of steps.",
-    #             )
-    #         ]
-    #     }
-
+    # Handle the case when it's the last step
     if state.is_last_step:
         return {
             "messages": [
@@ -171,7 +169,41 @@ async def researcher_agent(
         }
 
     # Return the model's response as a list to be added to existing messages
+    # return {"messages": [AIMessage(id=uuid.uuid4, content=response)]}
     return {"messages": [response]}
+
+# The researcher conditionally routes back to the supervisor node or tools node depending on the situation
+
+
+def researcher_routing(state: State) -> Literal["tools", "supervisor_agent"]:
+    """Determine the next node based on the model's output.
+
+    This function checks if the model's last message contains tool calls.
+
+    Args:
+        state (State): The current state of the conversation.
+
+    Returns:
+        str: The name of the next node to call ("__end__" or "tools").
+    """
+    last_message = state.messages[-1]
+    print("\n ############ RESEARCHER LAST MSG ##################\n", last_message)
+    print("\n ############ RESEARCHER TOOL CALL ##################\n",
+          last_message.tool_calls)
+    print("\n############## RESEARCHER ROUTING STATE MESSAGES ##################\n", state.messages)
+    if not isinstance(last_message, AIMessage):
+        raise ValueError(
+            f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
+        )
+    # If there is no tool call, then we finish
+
+    # next_step = json.loads(last_message.content)['next_step']
+    if not last_message.tool_calls:
+        # Here we track the id of the response after invoking the research agent
+        id_tracking['research_id'] = last_message.id
+        return "supervisor_agent"
+    # Otherwise we execute the requested actions
+    return "tools"
 
 
 async def summary_agent(
@@ -195,10 +227,13 @@ async def summary_agent(
     model = load_chat_model(configuration.model)
 
     # Format the system prompt. Customize this to change the agent's behavior.
-    # system_message = configuration.system_prompt.format(
-    #     system_time=datetime.now(tz=timezone.utc).isoformat()
-    # )
     system_message = configuration.get_prompt("summary_agent")
+
+    # Finding the content that is generated from the researcher
+    research_content = next(
+        (msg for msg in state.messages if msg.id == id_tracking["research_id"]), None)
+
+    print("\nreserch content\n", research_content)
 
     # Get the model's response
     response = cast(
@@ -208,17 +243,7 @@ async def summary_agent(
         ),
     )
 
-    # Handle the case when it's the last step and the model still wants to use a tool
-    # if state.is_last_step and response.tool_calls:
-    #     return {
-    #         "messages": [
-    #             AIMessage(
-    #                 id=response.id,
-    #                 content="Sorry, I could not find an answer to your question in the specified number of steps.",
-    #             )
-    #         ]
-    #     }
-
+    # Handle the case when it's the last step
     if state.is_last_step:
         return {
             "messages": [
@@ -364,58 +389,6 @@ builder.add_edge("__start__", "supervisor_agent")
 builder.add_edge("summary_agent", "supervisor_agent")
 builder.add_edge("marketing_agent", "supervisor_agent")
 builder.add_edge("lead_agent", "supervisor_agent")
-
-# The researcher conditionally routes back to the supervisor node or tools node depending on the situation
-
-
-def researcher_routing(state: State) -> Literal["tools", "supervisor_agent"]:
-    """Determine the next node based on the model's output.
-
-    This function checks if the model's last message contains tool calls.
-
-    Args:
-        state (State): The current state of the conversation.
-
-    Returns:
-        str: The name of the next node to call ("__end__" or "tools").
-    """
-    last_message = state.messages[-1]
-    print("\n ############ RESEARCHER LAST MSG ##################\n", last_message)
-    print("\n ############ RESEARCHER TOOL CALL ##################\n",
-          last_message.tool_calls)
-    print("\n############## RESEARCHER ROUTING STATE MESSAGES ##################\n", state.messages)
-    if not isinstance(last_message, AIMessage):
-        raise ValueError(
-            f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
-        )
-    # If there is no tool call, then we finish
-    if not last_message.tool_calls:
-        return "supervisor_agent"
-    # Otherwise we execute the requested actions
-    return "tools"
-
-
-def supervisor_routing(state: State) -> Literal["__end__", "summary_agent", "researcher_agent", "marketing_agent", "lead_agent"]:
-    """Determine the next node based on the model's output.
-
-    This function checks if the model's last message contains tool calls.
-
-    Args:
-        state (State): The current state of the conversation.
-
-    Returns:
-        str: The name of the next node to call ("__end__" or "tools").
-    """
-    last_message = state.messages[-1]
-    print("\n############## SUPERVISOR ROUTING LAST MSG #################\n", last_message)
-    print("\n############## STATE MESSAGES ##################\n", state.messages)
-    if not isinstance(last_message, AIMessage):
-        raise ValueError(
-            f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
-        )
-
-    # Route based on where the supervisor think we should go
-    return last_message.content
 
 
 # Add a conditional edge to determine the next step after `call_model`
