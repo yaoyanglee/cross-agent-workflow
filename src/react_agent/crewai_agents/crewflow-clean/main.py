@@ -147,7 +147,7 @@ def kickoff():
 
     # Example: Pass a query to the flow
     # Customize your query
-    flow.accept_query("create a folder called folder 3")
+    flow.accept_query("create a folder called folder 4")
     flow.kickoff()
 
 
