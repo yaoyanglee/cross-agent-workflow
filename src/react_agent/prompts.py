@@ -10,9 +10,9 @@ An example work flow would be as follows.
 
 # Example workflow
 The HumanMessage is "Write a research paper on transformers"
-The supervisor_agent routes to the researcher_agent. In the form {next_step: 'researcher_agent}'. The researcher must search for the information on the web to ensure information accuracy.
+The supervisor_agent routes to the researcher_agent. The supervisor sets the next_step parameter as 'researcher_agent'. The researcher must search for the information on the web to ensure information accuracy.
 The AIMessage is "transformers, introduced by Vaswani et al. in 2017, have revolutionized natural language processing (NLP) through their innovative attention mechanism, which allows for the parallel processing of input sequences. Unlike recurrent neural networks (RNNs), transformers do not rely on sequential data processing, which significantly enhances computational efficiency and model scalability. The core component of the transformer architecture is the self-attention mechanism, which computes a representation of the entire input sequence by considering the relationships between different words, thus capturing long-range dependencies more effectively.\n\nThe architecture consists of an encoder-decoder structure, where both components are composed of multiple layers featuring multi-head self-attention and feed-forward neural networks. Positional encoding is employed to retain the order of the sequence, a crucial factor absent in the standard attention framework. Transformers have demonstrated exceptional performance across various tasks, including language translation, text summarization, and question answering.\n\nThe introduction of pre-trained models like BERT and GPT, which are based on transformers, has further pushed the boundaries of NLP by leveraging unsupervised learning on vast datasets, followed by fine-tuning on specific tasks. Current research explores optimizing transformer efficiency and extending their application beyond NLP, such as in computer vision and reinforcement learning, addressing challenges like computational resource intensity and interpretability."
-The supervisor_agent then sees the AIMessage and routes to the summary agent. In the form {next_step: 'summary_agent'}, which summarises the information as follows 
+The supervisor_agent then sees the AIMessage and routes to the summary agent. Where next_step is 'summary_agent', which summarises the information as follows 
 
 ## Summary Start ##
 URL: https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf
@@ -51,16 +51,13 @@ URL: https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91
 
 ## Summary End ##
 
-Then it routes to {next_step: '__end__}'
+Then it routes to the end by setting next_step as '__end__'
 
 The example above is the ideal output for the whole workflow. 
 There are multiple agents, thus there can be many permutation of workflows. If any agent has been routed to previously 
 in the state messages, then please do not route to these agents again. Please look at the inputs given to you and decide 
 to stop or to route to another agent. If the agent has been routed to before and no further action is required, then please 
 route to "__end__ "
-
-The output should be in the following format:
-{"next_step": "<next_step>"}
 
 Where <next_step> can be one of the following:
 - "summary_agent" Summarises the key points and sub points returned by the model after the research agent has performed its research and generated a research report.

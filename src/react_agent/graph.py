@@ -28,7 +28,12 @@ load_dotenv()
 # Defining an output structure
 
 
-class ModelResponse(BaseModel):
+class SupervisorResponse(BaseModel):
+    next_step: str
+
+
+class AgentResponse(BaseModel):
+    content: str
     next_step: str
 
 # Define the function that calls the model
@@ -54,7 +59,7 @@ async def supervisor_agent(
     # Initialize the model with tool binding. Change the model or add more tools here.
     # model = load_chat_model(configuration.model).bind_tools(TOOLS)
     model = load_chat_model(configuration.model)
-    # model = model.with_structured_output(ModelResponse)
+    model = model.with_structured_output(SupervisorResponse)
 
     # Format the system prompt. Customize this to change the agent's behavior.
     # Get the correct prompt for this agent
@@ -71,7 +76,8 @@ async def supervisor_agent(
 
     print("\n############## SUPERVISOR STATE ##################\n", state)
 
-    print("\n ############## SUPERVISOR RESPONSE ############ \n", response)
+    print("\n ############## SUPERVISOR RESPONSE ############ \n",
+          response, "   ", type(response))
 
     # Handle the case when it's the last step and the model still wants to use a tool
     # if state.is_last_step and response.tool_calls:
@@ -88,7 +94,7 @@ async def supervisor_agent(
         return {
             "messages": [
                 AIMessage(
-                    id=response.id,
+                    id=uuid.uuid4,
                     content="Sorry, I could not find an answer to your question in the specified number of steps.",
                 )
             ]
@@ -96,32 +102,20 @@ async def supervisor_agent(
 
     # Parse the structured JSON response from the model
     try:
-        structured_output = json.loads(response.content)
-        print("\n++++++++ STRUCTURED OUTPUT +++++++++++++\n", structured_output)
-        next_step = structured_output['next_step']
+        # structured_output = json.loads(response.content)
+        # print("\n++++++++ STRUCTURED OUTPUT +++++++++++++\n", structured_output)
+        # next_step = structured_output['next_step']
 
-        if next_step:
-            return {"messages": [AIMessage(id=response.id, content=next_step)]}
+        if response.next_step:
+            response = response.model_dump_json()
+            return {"messages": [AIMessage(id=uuid.uuid4, content=response)]}
 
     except (json.JSONDecodeError, KeyError):
-        next_step = "__end__"  # Default to end if parsing fails or if the output is malformed
-
-    # Handle the next steps based on the parsed structured output
-    # if next_step == "summary_agent":
-    #     # Optionally, you can trigger another agent or action here
-    #     # For example, return to the summary agent or provide a summary response
-    #     return {"messages": [AIMessage(id=response.id, content=next_step)]}
-
-    # elif next_step == "researcher_agent":
-    #     # Trigger the researcher agent
-    #     return {"messages": [AIMessage(id=response.id, content=next_step)]}
-
-    # elif next_step == "__end__":
-    #     # End the conversation or the process
-    #     return {"messages": [AIMessage(id=response.id, content=next_step)]}
+        # Default to end if parsing fails or if the output is malformed
+        return {"messages": [AIMessage(id=uuid.uuid4, content={'content': 'JSON Key Error', 'next_step': '__end__'})]}
 
     # Fallback to return the response if no next step is defined
-    return {"messages": [response]}
+    return {"messages": [AIMessage(id=uuid.uuid4, content=response)]}
 
 
 async def researcher_agent(
@@ -142,7 +136,6 @@ async def researcher_agent(
 
     # Initialize the model with tool binding. Change the model or add more tools here.
     model = load_chat_model(configuration.model).bind_tools(TOOLS)
-    # model = load_chat_model(configuration.model)
 
     # Format the system prompt. Customize this to change the agent's behavior.
     system_message = configuration.get_prompt("researcher_agent")
