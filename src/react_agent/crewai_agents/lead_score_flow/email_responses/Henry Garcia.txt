@@ -1,0 +1,15 @@
+Subject: Thank You for Your Application
+
+Dear Henry,
+
+Thank you for taking the time to apply for the position at CrewAI and for sharing your impressive background with us. We greatly appreciate the effort you put into your application, and we recognize your passion for applying AI to solve real-world problems, as well as your recent projects, including your Next.js app utilizing the Vercel AI SDK.
+
+After careful consideration, we regret to inform you that we have decided to move forward with other candidates at this time. This decision was not easy, given the strong applicants we had for this position. We encourage you to keep an eye on future opportunities with our company that align with your skills and interests.
+
+We genuinely appreciate your interest in CrewAI, and we wish you all the best in your job search and future endeavors.
+
+Warm regards,
+
+Sarah  
+HR Coordinator  
+CrewAI

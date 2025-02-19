@@ -1,0 +1,14 @@
+Subject: Next Steps in the Hiring Process
+
+Dear Alexander,
+
+I hope this message finds you well! Thank you for your application and for sharing your impressive background with us. Your expertise in building high-performance web applications using React and Next.js, as well as your experience with CrewAI and the Vercel AI SDK, makes you a strong candidate for our team. We appreciate your passion for working in fast-paced environments and your collaborative spirit in developing innovative solutions.
+
+We would love to move forward with you in the hiring process. Could you please share your availability for a Zoom call in the upcoming days? We look forward to discussing your experiences and how you can contribute to our team.
+
+Thank you once again for your interest in CrewAI. I look forward to hearing from you soon!
+
+Best regards,  
+Sarah  
+HR Coordinator  
+CrewAI

@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application  
+
+Dear Isabella,
+
+Thank you for your interest in the developer position at CrewAI and for the time you took to apply. We appreciate the effort you put into your application and your commitment to improving your front-end development skills through online courses and personal projects. Your passion for learning new technologies is commendable.
+
+After careful consideration, we have decided to move forward with other candidates whose qualifications more closely match our current needs. This was not an easy decision given the many talented individuals we meet throughout the hiring process.
+
+We encourage you to continue developing your skills and applying for future opportunities with us. We believe that your enthusiasm and dedication will help you find the right position that fits your career aspirations.
+
+Thank you again for your time and effort. We wish you the best in your job search and future endeavors.
+
+Best regards,  
+Sarah  
+HR Coordinator  
+CrewAI

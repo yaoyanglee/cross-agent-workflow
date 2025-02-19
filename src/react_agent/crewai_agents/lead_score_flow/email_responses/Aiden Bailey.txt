@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application  
+
+Dear Aiden,  
+
+I hope this message finds you well.  
+
+Thank you for taking the time to apply for our position at CrewAI and for sharing your impressive background in full-stack development. Your experience with front-end technologies and AI-powered tools, particularly your leadership on projects utilizing CrewAI and the Vercel AI SDK, is certainly noteworthy.  
+
+After careful consideration, we regret to inform you that we will not be moving forward with your application at this time. This decision does not take away from the remarkable skills and experience you possess, and we genuinely appreciate the effort you invested in your application.  
+
+We wish you all the best in your job search and future endeavors. Thank you again for your interest in CrewAI.  
+
+Warm regards,  
+Sarah  
+HR Coordinator  
+CrewAI

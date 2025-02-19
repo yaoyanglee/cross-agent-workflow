@@ -1,0 +1,17 @@
+Subject: Thank You for Your Application
+
+Dear Benjamin,
+
+Thank you for taking the time to apply for the front-end developer position at CrewAI. We were impressed with your experience in modern web technologies and AI integrations, as well as your contributions to projects leveraging the Vercel AI SDK and CrewAI.
+
+After careful consideration, we have decided to pursue other candidates for this role. This decision was not easy, as we recognize the talent and passion you bring to building scalable web applications. We truly appreciate your effort in applying and the time you dedicated to the recruitment process.
+
+We encourage you to keep an eye on future opportunities with CrewAI, as we would love to see your application again.
+
+Wishing you all the best in your job search and future endeavors.
+
+Warm regards,
+
+Sarah  
+HR Coordinator  
+CrewAI

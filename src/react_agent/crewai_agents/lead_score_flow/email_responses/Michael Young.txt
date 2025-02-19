@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application  
+
+Dear Michael,  
+
+Thank you for applying for the web development position at CrewAI. We appreciate the effort you put into your application and the time you took to share your journey with us.  
+
+Your experience at the coding bootcamp and the capstone project you developed, particularly the social media dashboard using React, demonstrates your skills and passion for technology. It’s always inspiring to see recently graduated candidates eager to contribute to a dynamic team environment.  
+
+However, after careful consideration, we regret to inform you that we will not be progressing with your application at this time. The selection process was competitive, and we made the difficult decision to pursue other candidates whose profiles more closely align with our immediate needs.  
+
+We appreciate your interest in CrewAI and encourage you to apply for future openings that match your skills and passion. Thank you once again for your time, and we wish you the best of luck in your job search.  
+
+Best regards,  
+Sarah  
+HR Coordinator  
+CrewAI

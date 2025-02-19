@@ -1,0 +1,36 @@
+managing_files:
+  description: >
+    1. {query} 
+    You should think about the task and then decide what tools need to be used to complete the task.
+    If you need to retrieve local files, always run the retrieve file tool first in order to get the best match, as the query may be slightly wrong.
+    you have {directory_contents} to work with, all actions should only be done in the FileSystem directory.
+  expected_output: >
+    Task to be completed and then a short report of what was done.
+    You can report using where, who, which, why, what, how, where necessary.
+
+web_searching:
+  description: >
+    1. {query} 
+    Given the query you can find the most 
+  expected_output: >
+    Task to be completed and then a short report of what was done.
+    You can report using where, who, which, why, what, how, where necessary.
+    Answer the query based on the information obtained
+  agent: web_searcher
+
+
+supervising:
+  description: >
+    Given the {query}, and the Agent json {agents}, and the tasks json {tasks}, you need to decide which agents and their respective tasks is needed to complete the query. 
+    you can have only one agent that is required or multiple agents that are require to complete the tasks,
+    For example, a query is seach for the side effect of the drug and then save into a txt file in a folder, I would require both developer_file_management and web_searcher agent for this query.
+  expected_output: >
+    JSON format {{agents: ...., tasks:....}}
+    for example JSON format {{agents: [agent_1,agent_2], tasks:[task_1,task_2]}}
+ 
+
+
+
+
+
+

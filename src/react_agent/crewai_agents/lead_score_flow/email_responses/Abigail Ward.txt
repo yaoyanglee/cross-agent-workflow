@@ -1,0 +1,17 @@
+Subject: Thank You for Your Application, Abigail
+
+Dear Abigail,
+
+I hope this message finds you well. 
+
+I want to extend my sincere gratitude for your application for the developer position at CrewAI. It was a pleasure to learn about your background, especially your strong React skills and your experience in integrating AI into web applications. Your passion for user experience and your commitment to creating functional and visually appealing applications truly stood out.
+
+After careful consideration, I regret to inform you that we will not be proceeding with your application at this time. This decision was not easy, given your impressive qualifications. We appreciate the effort and time you took to apply and wish you all the best in your job search.
+
+Thank you once again for your interest in CrewAI.
+
+Warm regards,
+
+Sarah  
+HR Coordinator  
+CrewAI

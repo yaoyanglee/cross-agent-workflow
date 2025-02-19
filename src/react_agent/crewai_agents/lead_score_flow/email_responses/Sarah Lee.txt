@@ -1,0 +1,17 @@
+Subject: Thank You for Your Application
+
+Dear Sarah,
+
+Thank you for taking the time to apply for the developer position at CrewAI and for sharing your impressive background with us. We appreciate your experience as a self-taught developer and the personal projects you've built, such as your responsive personal blog and task manager app utilizing React and Next.js. Your enthusiasm for problem-solving and continuous learning truly stands out.
+
+After careful consideration, we regret to inform you that we will not be moving forward with your application for this position. Please know that this decision was not easy, as you have much to offer, and we genuinely appreciate the effort you put into your application.
+
+We encourage you to continue honing your craft and keep an eye on crewAI for future opportunities that may align better with your skills and passions.
+
+Thank you once again for your interest in CrewAI. We wish you all the best in your job search and future endeavors.
+
+Warm regards,
+
+Sarah  
+HR Coordinator  
+CrewAI

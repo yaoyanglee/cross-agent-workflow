@@ -1,0 +1,18 @@
+Subject: Exciting Next Steps with Your Application
+
+Dear Linda,
+
+I hope this message finds you well. 
+
+Thank you for taking the time to apply for the full-stack developer position with CrewAI. I was impressed by your extensive experience with front-end technologies, particularly your work with React and Next.js, as well as your recent explorations in AI integrations using the Vercel AI SDK and CrewAI. Your ability to create seamless, user-friendly interfaces and optimize performance aligns well with what we are seeking to achieve in our team.
+
+I am pleased to inform you that we would like to proceed with your application and discuss the opportunity further. Could you please provide your availability for a Zoom call in the upcoming days? We are eager to learn more about your experiences and see how they can contribute to our projects at CrewAI.
+
+Looking forward to hearing from you soon!
+
+Best regards,
+
+Sarah  
+HR Coordinator  
+CrewAI  
+[Your contact information]

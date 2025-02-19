@@ -1,0 +1,52 @@
+research_task:
+  description: >
+    Your input is from langgraph. It is an array of AIMessages and HumanMessages. Using the list of Messages,
+    please gain an understanding of what the user wants. Using the information you have gained, could you then
+    conduct a thorough research about the customer and competitors in the context
+    of the inputs:{langgraph_messages}. The inputs are from langgraph.   
+    Make sure you find any interesting and relevant information given the
+    current year is 2024.
+    We are working with them on the following project: {langgraph_messages}.
+  expected_output: >
+    A complete report on the customer and their customers and competitors,
+    including their demographics, preferences, market positioning and audience engagement.
+
+project_understanding_task:
+  description: >
+    Your input is from langgraph. It is an array of AIMessages and HumanMessages. Using the list of Messages,
+    please gain an understanding of what the user wants. Using the information you have gained, could you then 
+    understand the project details and the target audience for
+    {langgraph_messages}.
+    Review any provided materials and gather additional information as needed.
+  expected_output: >
+    A detailed summary of the project and a profile of the target audience.
+
+marketing_strategy_task:
+  description: >
+    Your input is from langgraph. It is an array of AIMessages and HumanMessages. Using the list of Messages,
+    please gain an understanding of what the user wants. Using the information you have gained, could you then
+    formulate a comprehensive marketing strategy for the project
+    {langgraph_messages} of the customer. The customer is found within the list langgraph messages. 
+    Use the insights from the research task and the project understanding
+    task to create a high-quality strategy.
+  expected_output: >
+    A detailed marketing strategy document that outlines the goals, target
+    audience, key messages, and proposed tactics, make sure to have name, tatics, channels and KPIs
+
+campaign_idea_task:
+  description: >
+    Your input is from langgraph. It is an array of AIMessages and HumanMessages. Using the list of Messages,
+    please gain an understanding of what the user wants. Using the information you have gained, could you then
+    develop creative marketing campaign ideas for {langgraph_messages}.
+    Ensure the ideas are innovative, engaging, and aligned with the overall marketing strategy.
+  expected_output: >
+    A list of 5 campaign ideas, each with a brief description and expected impact.
+
+copy_creation_task:
+  description: >
+    Your input is from langgraph. It is an array of AIMessages and HumanMessages. Using the list of Messages,
+    please gain an understanding of what the user wants. Using the information you have gained, could you then
+    Create marketing copies based on the approved campaign ideas for the campaign found in {langgraph_messages}.
+    Ensure the copies are compelling, clear, and tailored to the target audience.
+  expected_output: >
+    Marketing copies for each campaign idea.

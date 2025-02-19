@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application  
+
+Dear Amy White,  
+
+I hope this message finds you well.  
+
+I wanted to take a moment to thank you for applying for the senior developer position at CrewAI and for taking the time to share your impressive background with us. Your extensive experience in full-stack development and AI integrations, along with your passion for mentoring, certainly stood out to us.  
+
+After careful consideration, we regret to inform you that we will not be progressing with your application at this time. This decision was not an easy one, as we received numerous applications from highly qualified candidates. We truly appreciate the effort you put into your application and the valuable skills you bring to the table.  
+
+We encourage you to continue pursuing opportunities that align with your talents, and we wish you all the best in your job search. Thank you once again for your interest in CrewAI.  
+
+Warm regards,  
+Sarah  
+HR Coordinator  
+CrewAI

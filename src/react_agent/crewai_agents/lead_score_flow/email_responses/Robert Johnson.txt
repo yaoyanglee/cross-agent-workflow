@@ -1,0 +1,14 @@
+Subject: Next Steps in Your Application Process
+
+Dear Robert,
+
+I hope this email finds you well. Thank you for taking the time to apply for the front-end developer position at CrewAI. We were very impressed with your skills and experience, particularly your expertise in React and your innovative work on AI-powered applications, such as the recommendation engine using the Vercel AI SDK. Your attention to detail and commitment to high-quality, maintainable code truly stood out to us.
+
+We would love to proceed with your application and discuss this opportunity further. Could you please share your availability for a Zoom call in the upcoming days? We are eager to learn more about your experiences and how you could contribute to our team.
+
+Looking forward to hearing from you soon!
+
+Best regards,  
+Sarah  
+HR Coordinator  
+CrewAI

@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application  
+
+Dear Daniel,  
+
+Thank you for taking the time to apply for the front-end developer position at CrewAI. We appreciate your interest in our company and the effort you put into your application.  
+
+After careful consideration, we have decided to pursue other candidates for this role. This decision was not easy to make, given your impressive skills in React and your recent work with AI-driven features. We value your passion for improving user experience and your innovative approach to projects.  
+
+We encourage you to apply for future openings that align with your qualifications, as we believe you could be a great fit for our team down the line.  
+
+Thank you once again for your interest in CrewAI, and we wish you all the best in your job search.  
+
+Kind regards,  
+Sarah  
+HR Coordinator  
+CrewAI

@@ -1,0 +1,16 @@
+Subject: Thank You for Your Application, Ethan
+
+Dear Ethan,
+
+Thank you for taking the time to apply for the web developer position at CrewAI. We appreciate the effort you put into your application and were impressed by your self-taught skills, especially your experience with full-stack development and AI-driven solutions. Your projects using React, Next.js, and the Vercel AI SDK reflect a strong engagement with the latest technologies.
+
+After careful consideration, we have decided to move forward with other candidates for this position. Please know that this decision was not easy, and it in no way diminishes the strong qualifications you bring to the table. We genuinely appreciate your interest in joining our team.
+
+We encourage you to keep an eye on future opportunities at CrewAI that might align with your skills and passions. We wish you the best of luck in your job search and future endeavors.
+
+Thank you once again for your interest.
+
+Best regards,  
+Sarah  
+HR Coordinator  
+CrewAI

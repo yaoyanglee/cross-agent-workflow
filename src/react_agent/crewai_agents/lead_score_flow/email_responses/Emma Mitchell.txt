@@ -1,0 +1,17 @@
+Subject: Thank You for Your Application  
+
+Dear Emma,  
+
+Thank you for taking the time to apply for the web developer position at CrewAI. We appreciate your interest in our company and the opportunity to review your application.  
+
+After careful consideration, we have decided to pursue other candidates whose experience and skills more closely match our current needs. This was a tough decision given your strong background in integrating AI solutions into front-end projects and your experience with both the Vercel AI SDK and CrewAI. We truly appreciate your effort and the time you took to apply.  
+
+We encourage you to keep an eye on future job openings at CrewAI as we would be happy to receive your application again. We wish you all the best in your job search and future endeavors.  
+
+Thank you once again for your interest in joining our team.  
+
+Warm regards,  
+
+Sarah  
+HR Coordinator  
+CrewAI
