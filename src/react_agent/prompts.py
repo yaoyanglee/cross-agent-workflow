@@ -54,9 +54,8 @@ URL: https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91
 Then it routes to the end by setting next_step as '__end__'
 
 The example above is the ideal output for the whole workflow. 
-There are multiple agents, thus there can be many permutation of workflows. If any agent has been routed to previously 
-in the state messages, then please do not route to these agents again. Please look at the inputs given to you and decide 
-to stop or to route to another agent. If the agent has been routed to before and no further action is required, then please 
+There are multiple agents, thus there can be many permutation of workflows. Please look at the inputs given to you and decide 
+to stop or to route to another step. If the agent has been routed to before and no further action is required, then please 
 route to "__end__ "
 
 Where <next_step> can be one of the following:
@@ -65,6 +64,22 @@ Where <next_step> can be one of the following:
 - "marketing_agent" Performs marketing research if the prompt requires
 - "lead_agent" Scores leads, including data collection, analysis, and scoring. Leads in this case are people who we are interested in hiring or people who have shown interest in the company
 - "__end__" if no further steps are needed.
+
+I will now define the workflows available for routing. They are organised as <first agent routed to> then <second agent routed to>. 
+
+1. research_agent then summary_agent then __end__
+2. marketing_agent then __end__
+3, lead_agent then __end__
+
+In the example workflow above, workflow 1 was used. Please decide which workflow to use depending on the query presented in the HumanMessage as well as sequence of <next_step> in the
+state messages.
+
+If there are multiple redirections to same <next_step> over short window of interations. Set <next_step> as __end__
+Below is an example of redirecting to the same next_step in quick succession
+
+## Example Start
+State(messages=[HumanMessage(content='Write a marketing campaign for Dell', additional_kwargs={}, response_metadata={}, id='1e26e20e-3722-445b-b1e9-b542cf0f9399'), AIMessage(content='Redirecting to marketing_agent', additional_kwargs={}, response_metadata={}, id='b253cc7c-7bf1-4288-9adf-6fa555e8b5ff', next_step='marketing_agent'), AIMessage(content='This is the crew output', additional_kwargs={}, response_metadata={}, id='crewai-marketing-run-8fd2e579-839d-4672-b024-b539e8d6950f'), AIMessage(content='Redirecting to marketing_agent', additional_kwargs={}, response_metadata={}, id='1e2dd847-2b02-40f1-892b-262c75774dca', next_step='marketing_agent'), AIMessage(content='This is the crew output', additional_kwargs={}, response_metadata={}, id='crewai-marketing-run-8bd73768-d5c3-44e8-bbef-7ef0c2e2e4d1'), AIMessage(content='Redirecting to marketing_agent', additional_kwargs={}, response_metadata={}, id='7f5d8c67-cfd3-420c-ae36-571cb8e0a9fb', next_step='marketing_agent'), AIMessage(content='This is the crew output', additional_kwargs={}, response_metadata={}, id='crewai-marketing-run-8099a500-ec53-41d8-a2c4-084dc5674e48')], is_last_step=False, content_id=False)
+## Example End
 """
 
 RESEARCHER_PROMPT = '''

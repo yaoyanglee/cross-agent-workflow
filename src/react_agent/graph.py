@@ -13,7 +13,7 @@ from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import StateGraph
 from langgraph.prebuilt import ToolNode
-from pydantic import BaseModel
+from pydantic import Field
 
 from react_agent.configuration import Configuration
 from react_agent.state import InputState, State
@@ -29,15 +29,16 @@ load_dotenv()
 
 
 class NodeResponse(AIMessage):
+    content: str
     next_step: str
 
 
-class MarketingInput(BaseModel):
+class MarketingInput(AIMessage):
     customer_domain: str
     project_description: str
 
 
-    # Defining a tracking dictionary to keep track of research responses after using tools
+# Defining a tracking dictionary to keep track of research responses after using tools
 id_tracking = {
     "research": {
         "research_id": None,
@@ -297,15 +298,25 @@ async def marketing_agent(
 
     crew_input = {"customer_domain": response.customer_domain,
                   "project_description": response.project_description}
-    crew_output = run(crew_input)
-    print("########## CREW OUTPUT ############", crew_output)
+    # crew_output = {
+    #     "title": "Eco-Adventure Challenge",
+    #     "body": "Join the Eco-Adventure Challenge and explore the great outdoors in a Toyota hybrid or electric vehicle! Share your eco-conscious travel experiences with us using #ToyotaEcoAdventure for a chance to win weekly eco-friendly prizes. Plus, all participants are entered to win a brand new Toyota hybrid. Adventure awaits\u2014let's explore together while taking care of our planet!"
+    # }
+    crew_output = "Join the Eco-Adventure Challenge and explore the great outdoors in a Toyota hybrid or electric vehicle! Share your eco-conscious travel experiences with us using #ToyotaEcoAdventure for a chance to win weekly eco-friendly prizes. Plus, all participants are entered to win a brand new Toyota hybrid. Adventure awaits\u2014let's explore together while taking care of our planet!"
+    # crew_output = json.dumps(crew_output, indent=2)
+
+    # crew_output = run(crew_input)
+    print("########## CREW OUTPUT ############",
+          crew_output, "    ", type(crew_output))
 
     # Constructing a response that is compatible with the langgraph nodes return values
     crew_response = AIMessage(
         # You can generate a unique ID if needed
-        id=f"crewai-marketing-run-{uuid.uuid4()}",
+        id=response.id,
         content=crew_output,  # Use CrewAI's generated content
     )
+
+    print("\nCREW RESPONSE\n", crew_response)
 
     if state.is_last_step:
         return {
