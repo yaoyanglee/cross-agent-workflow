@@ -83,9 +83,9 @@ async def supervisor_agent(
         ),
     )
 
-    print("\n############## SUPERVISOR STATE ##################\n", state)
-    print("\n ############## SUPERVISOR RESPONSE ############ \n",
-          response)
+    # print("\n############## SUPERVISOR STATE ##################\n", state)
+    # print("\n ############## SUPERVISOR RESPONSE ############ \n",
+    #       response)
 
     # Handle the case when it's the last step
     if state.is_last_step:
@@ -119,9 +119,17 @@ def supervisor_routing(state: State) -> Literal["__end__", "summary_agent", "res
         str: The name of the next node to call ("__end__" or "tools").
     """
     last_message = state.messages[-1]
-    print("\n############## SUPERVISOR ROUTING LAST MSG #################\n",
-          last_message, "    ", type(last_message))
+
+    '''
+    Debugging steps use as required
+    '''
+    # print("\n############## SUPERVISOR ROUTING LAST MSG #################\n",
+    #       last_message, "    ", type(last_message))
     # print("\n############## STATE MESSAGES ##################\n", state.messages)
+    '''
+    Deubugging steps
+    '''
+
     if not isinstance(last_message, AIMessage):
         raise ValueError(
             f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
@@ -193,10 +201,18 @@ def researcher_routing(state: State) -> Literal["tools", "supervisor_agent"]:
         str: The name of the next node to call ("__end__" or "tools").
     """
     last_message = state.messages[-1]
-    print("\n ############ RESEARCHER LAST MSG ##################\n", last_message)
-    print("\n ############ RESEARCHER TOOL CALL ##################\n",
-          last_message.tool_calls)
-    print("\n############## RESEARCHER ROUTING STATE MESSAGES ##################\n", state.messages)
+
+    '''
+    Debuggins steps use as required
+    '''
+    # print("\n ############ RESEARCHER LAST MSG ##################\n", last_message)
+    # print("\n ############ RESEARCHER TOOL CALL ##################\n",
+    #       last_message.tool_calls)
+    # print("\n############## RESEARCHER ROUTING STATE MESSAGES ##################\n", state.messages)
+    '''
+    Debugging Steps
+    '''
+
     if not isinstance(last_message, AIMessage):
         raise ValueError(
             f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
@@ -236,10 +252,10 @@ async def summary_agent(
     system_message = configuration.get_prompt("summary_agent")
 
     # Finding the content that is generated from the researcher
-    research_content = next(
-        (msg for msg in state.messages if msg.id == id_tracking["research_id"]), None)
+    # research_content = next(
+    #     (msg for msg in state.messages if msg.id == id_tracking["research_id"]), None)
 
-    print("\nreserch content\n", research_content)
+    # print("\nreserch content\n", research_content)
 
     # Get the model's response
     response = cast(
@@ -259,6 +275,11 @@ async def summary_agent(
                 )
             ]
         }
+
+    # Writing the response to a markdown file
+    print("\nSUMMARY AGENT OUTPUT\n", response.content)
+    with open("research_summary.md", "w", encoding="utf-8") as f:
+        f.write(response.content)
 
     # Return the model's response as a list to be added to existing messages
     return {"messages": [response]}
